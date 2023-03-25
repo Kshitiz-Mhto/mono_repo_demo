@@ -36,7 +36,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: | 
             cd ./java-backend
-            mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kshitiz-Mhto_mono_repo_demo
+            mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
 
 
   sonarcloud1:
@@ -54,7 +54,7 @@ jobs:
         with:
           projectBaseDir: ui/
           args: >
-            -Dsonar.projectKey=Kshitiz-Mhto_mono_repo_demo
+            -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
             -Dsonar.organization=kshitiz-mhto
   
   sonarcloud2:
@@ -72,5 +72,5 @@ jobs:
         with:
           projectBaseDir: python-client/
           args: >
-            -Dsonar.projectKey=Kshitiz-Mhto_mono_repo_demo
+            -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
             -Dsonar.organization=kshitiz-mhto
