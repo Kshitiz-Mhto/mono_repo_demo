@@ -96,7 +96,7 @@ jobs:
           pip install tox
       - name: Run tox
         working-directory: ./python-client
-        run: tox -e py --cov-report term --cov-report xml:coverage.xml 
+        run: tox -e py
         
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
