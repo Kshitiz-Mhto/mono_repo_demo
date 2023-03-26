@@ -1,0 +1,48 @@
+name: SonarCloud for ui
+on:
+  push:
+    branches:
+      - main
+    # paths:
+    #   - '**.py'
+    #   - '**.js'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "**.md"
+
+  sonarcloud1:
+    name: SonarCloud-for-ui
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+          cache: 'npm'
+          cache-dependency-path: ./ui/package-lock.json
+      - name: Install dependencies
+        working-directory: ./ui
+        run: |
+          npm install
+      - name: Format and Lint all files
+        working-directory: ./ui
+        run: |
+          npm test
+          npm run cover
+      
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ui/
+          args: >
+            -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
+            -Dsonar.organization=kshitiz-mhto
+            -Dsonar.projectName=KalaUI
+            -Dsonar.javascript.lcov.reportPaths=coverage/coverage.raw.json
