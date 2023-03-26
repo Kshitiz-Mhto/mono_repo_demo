@@ -1,0 +1,84 @@
+name: osv-scanner
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-with-osv-scanner-java:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        cache: 'maven'
+
+    - name: Install dependencies
+      working-directory: ./java-backend
+      run: mvn install -DskipTests=true -B -V
+    - name: Run tests and collect coverage
+      run: |
+        cd ./java-backend
+        mvn -B test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./java-backend/target/site/jacoco/jacoco.xml
+        flags: backend
+
+
+  build-with-osv-scanner-ui:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14.x'
+        cache: 'npm'
+        cache-dependency-path: ./ui/package-lock.json
+    - name: Install dependencies
+      working-directory: ./ui
+      run: |
+        npm install
+        npm run cover
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./ui/coverage/coverage.raw.json
+        flags: ui
+
+  build-with-osv-scanner-python:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+        cache: 'pip'
+    - name: Install Python dependencies
+      working-directory: ./python-client
+      run: |
+        python -m pip install --upgrade pip
+        python install -r requirements.txt
+    - name: generate test coverage
+      run: |
+        cd python-client
+        tox -e py
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./python-client/.coverage-reports/coverage.xml
+        flags: python-client
+    
+
