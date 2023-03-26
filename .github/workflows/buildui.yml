@@ -10,7 +10,7 @@ on:
     types: [opened, synchronize, reopened]
     paths-ignore:
       - "**.md"
-
+jobs:
   sonarcloud1:
     name: SonarCloud-for-ui
     runs-on: ubuntu-latest
