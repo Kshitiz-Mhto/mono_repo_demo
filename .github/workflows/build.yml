@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**.java'
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -34,18 +36,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: | 
+        run: |
             cd ./java-backend
             mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
 
 
-  # sonarcloud1:
-  #   name: SonarCloud-for-ui
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+  sonarcloud1:
+    name: SonarCloud-for-ui
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -75,13 +77,13 @@ jobs:
             -Dsonar.projectName=KalaUI
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
   
-  # sonarcloud2:
-  #   name: SonarCloud-for-py
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+  sonarcloud2:
+    name: SonarCloud-for-py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
