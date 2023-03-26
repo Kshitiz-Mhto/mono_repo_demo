@@ -77,7 +77,8 @@ jobs:
             -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
             -Dsonar.organization=kshitiz-mhto
             -Dsonar.projectName=KalaUI
-            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/coverage.raw.json
+            -Dsonar.tests=test/
   
   sonarcloud2:
     name: SonarCloud-for-py
@@ -114,4 +115,5 @@ jobs:
             -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo
             -Dsonar.organization=kshitiz-mhto
             -Dsonar.projectName=KalaPy
-            -Dsonar.python.coverage.reportPaths=./.coverage-reports/coverage.xml
+            -Dsonar.python.coverage.reportPaths=.coverage-reports/coverage.xml
+            -Dsonar.tests=tests/
