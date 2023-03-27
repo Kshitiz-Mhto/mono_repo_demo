@@ -42,7 +42,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
             cd ./java-backend
-            mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo -Pcoverage
+            mvn -B verify sonar:sonar -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo -Pcoverage
 
 
   sonarcloud1:
