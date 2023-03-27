@@ -45,4 +45,4 @@ jobs:
             -Dsonar.projectKey=kshitiz-mhto_mono_repo_demo_2
             -Dsonar.organization=kshitiz-mhto
             -Dsonar.projectName=KalaUI
-            -Dsonar.javascript.lcov.reportPaths=coverage/coverage.raw.json
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
